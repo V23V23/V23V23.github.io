@@ -40,24 +40,46 @@
     padding: 120px 48px 64px;
     max-width: 1200px;
     margin: 0 auto;
+    cursor: grab;
   }
-  .hero-img {
-    width: 100%;
+  .hero-wrap.grabbing { cursor: grabbing; }
+  .hero-stage {
+    position: relative;
     aspect-ratio: 3/2;
-    object-fit: cover;
-    cursor: pointer;
-    display: block;
+    overflow: hidden;
     background: #e8e6e1;
     box-shadow: 0 2px 20px rgba(0,0,0,.06);
-    transition: box-shadow .5s, transform .1s;
   }
-  .hero-img:hover { box-shadow: 0 4px 32px rgba(0,0,0,.1); }
+  .hero-slide {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: opacity .8s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+  .hero-slide.active { opacity: 1; pointer-events: auto; }
+  .hero-slide img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+  }
   .hero-caption {
     margin-top: 20px;
+    display: flex; justify-content: space-between; align-items: center;
     font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
     color: #aaa;
-    text-align: right;
   }
+  .hero-dots {
+    display: flex; gap: 10px; align-items: center;
+  }
+  .hero-dots span {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: background .3s, transform .3s;
+  }
+  .hero-dots span.active { background: #666; transform: scale(1.4); }
+  .hero-dots span:hover { background: #999; }
 
   /* ── Quote ─────────────────────────────── */
   .quote {
@@ -215,9 +237,12 @@
 
 <!-- Hero -->
 <section id="home">
-  <div class="hero-wrap">
-    <img class="hero-img" id="heroImg" src="" alt="Cover photograph" loading="eager">
-    <div class="hero-caption">Selected Work &mdash; 2026</div>
+  <div class="hero-wrap" id="heroWrap">
+    <div class="hero-stage" id="heroStage"></div>
+    <div class="hero-caption">
+      <span>Selected Work &mdash; 2026</span>
+      <div class="hero-dots" id="heroDots"></div>
+    </div>
   </div>
 </section>
 
@@ -272,9 +297,75 @@
     'images/DSC06674.JPG'
   ];
 
-  /* ═══ Hero Image ═══ */
-  document.getElementById('heroImg').src = images[0];
-  document.getElementById('heroImg').addEventListener('click', function() { openLightbox(0); });
+  /* ═══ Hero Carousel ═══ */
+  var heroCurrent = 0;
+  var heroStage = document.getElementById('heroStage');
+  var heroDots = document.getElementById('heroDots');
+  var heroWrap = document.getElementById('heroWrap');
+  var wheelTimeout;
+
+  // Build slides
+  images.forEach(function(src, i) {
+    var slide = document.createElement('div');
+    slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Photograph ' + (i + 1);
+    if (i === 0) img.setAttribute('fetchpriority', 'high');
+    else img.setAttribute('loading', 'lazy');
+    img.addEventListener('click', function() { openLightbox(i); });
+    slide.appendChild(img);
+    heroStage.appendChild(slide);
+
+    var dot = document.createElement('span');
+    if (i === 0) dot.className = 'active';
+    dot.addEventListener('click', (function(idx) { return function() { goToHero(idx); }; })(i));
+    heroDots.appendChild(dot);
+  });
+
+  function goToHero(idx) {
+    var slides = heroStage.querySelectorAll('.hero-slide');
+    var dots = heroDots.querySelectorAll('span');
+    slides.forEach(function(s, i) { s.classList.toggle('active', i === idx); });
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+    heroCurrent = idx;
+  }
+
+  function heroNext() { goToHero((heroCurrent + 1) % images.length); }
+  function heroPrev() { goToHero((heroCurrent - 1 + images.length) % images.length); }
+
+  // Mouse wheel
+  heroWrap.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    if (wheelTimeout) return;
+    wheelTimeout = setTimeout(function() { wheelTimeout = null; }, 800);
+    e.deltaY > 0 ? heroNext() : heroPrev();
+  }, { passive: false });
+
+  // Touch swipe
+  var heroTouchX = 0, heroTouchY = 0;
+  heroWrap.addEventListener('touchstart', function(e) {
+    heroTouchX = e.touches[0].clientX;
+    heroTouchY = e.touches[0].clientY;
+    heroWrap.classList.add('grabbing');
+  });
+  heroWrap.addEventListener('touchend', function(e) {
+    heroWrap.classList.remove('grabbing');
+    var dx = heroTouchX - e.changedTouches[0].clientX;
+    var dy = heroTouchY - e.changedTouches[0].clientY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      dx > 0 ? heroNext() : heroPrev();
+    } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40) {
+      dy > 0 ? heroNext() : heroPrev();
+    }
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (lbOpen) return;
+    if (e.key === 'ArrowLeft') heroPrev();
+    if (e.key === 'ArrowRight') heroNext();
+  });
 
   /* ═══ Nav Scroll Background ═══ */
   var nav = document.getElementById('nav');
@@ -347,10 +438,10 @@
   });
 
   // Swipe for lightbox
-  var touchX = 0;
-  lb.addEventListener('touchstart', function(e) { touchX = e.touches[0].clientX; });
+  var lbTouchX = 0;
+  lb.addEventListener('touchstart', function(e) { lbTouchX = e.touches[0].clientX; });
   lb.addEventListener('touchend', function(e) {
-    var diff = touchX - e.changedTouches[0].clientX;
+    var diff = lbTouchX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) { diff > 0 ? lbNext() : lbPrev(); }
   });
 })();
