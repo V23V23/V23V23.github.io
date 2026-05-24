@@ -9,12 +9,11 @@
   html { scroll-behavior: smooth; }
 
   body {
-    background: #f7f6f3;
-    color: #444;
+    background: #efede8;
+    color: #555;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
     line-height: 1.8;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   /* ── Navigation ────────────────────────── */
@@ -24,18 +23,18 @@
     padding: 32px 24px;
     transition: background .5s;
   }
-  .nav.scrolled { background: rgba(247,246,243,.88); }
+  .nav.scrolled { background: rgba(239,237,232,.9); }
   .nav a {
-    text-decoration: none; color: #888;
+    text-decoration: none; color: #999;
     font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
     transition: color .4s;
   }
-  .nav a:hover { color: #333; }
-  .nav .sep { color: #ccc; margin: 0 24px; font-size: 11px; pointer-events: none; user-select: none; }
+  .nav a:hover { color: #444; }
+  .nav .sep { color: #ccc; margin: 0 22px; font-size: 10px; user-select: none; }
 
   /* ── Hero ──────────────────────────────── */
   .hero-wrap {
-    padding: 100px 40px 32px;
+    padding: 100px 36px 28px;
     max-width: 1280px; margin: 0 auto;
     cursor: grab;
   }
@@ -44,8 +43,8 @@
     position: relative;
     aspect-ratio: 3/2;
     overflow: hidden;
-    background: #e8e6e1;
-    box-shadow: 0 1px 12px rgba(0,0,0,.045);
+    background: #e0ded8;
+    box-shadow: 0 1px 10px rgba(0,0,0,.04);
   }
   .hero-slide {
     position: absolute; inset: 0;
@@ -56,27 +55,28 @@
   .hero-slide.active { opacity: 1; pointer-events: auto; }
   .hero-slide img {
     width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
+    object-fit: cover; display: block;
     cursor: pointer;
   }
-
+  .hero-slide .label {
+    position: absolute; bottom: 24px; left: 28px;
+    font-size: 13px; letter-spacing: 4px; color: #fff;
+    text-shadow: 0 1px 8px rgba(0,0,0,.4);
+  }
   .hero-foot {
-    margin-top: 24px;
+    margin-top: 22px;
     display: flex; justify-content: flex-end;
   }
-  .hero-dots { display: flex; gap: 10px; align-items: center; }
+  .hero-dots { display: flex; gap: 10px; }
   .hero-dots span {
     width: 4px; height: 4px; border-radius: 50%;
-    background: #d0cec8;
-    cursor: pointer;
+    background: #d0cec8; cursor: pointer;
     transition: background .4s, transform .4s;
   }
   .hero-dots span.active { background: #888; transform: scale(1.5); }
-  .hero-dots span:hover { background: #aaa; }
 
-  /* ── Section Spacer ────────────────────── */
-  .spacer { height: 96px; }
+  /* ── Section Spacing ───────────────────── */
+  .gap { height: 80px; }
 
   /* ── Quote ─────────────────────────────── */
   .quote {
@@ -84,39 +84,55 @@
     max-width: 520px; margin: 0 auto;
   }
   .quote p {
-    font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'Songti SC', serif;
-    font-size: 17px; line-height: 2.2;
-    color: #777;
+    font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', serif;
+    font-size: 16px; line-height: 2.2; color: #888;
     letter-spacing: 2px;
   }
   .quote .line {
-    display: block; width: 28px; height: 1px;
-    background: #d0cec8; margin: 36px auto;
+    display: block; width: 24px; height: 1px;
+    background: #d0cec8; margin: 32px auto;
   }
 
-  /* ── Gallery ───────────────────────────── */
-  .gallery-section { padding-top: 48px; }
-
-  .masonry {
+  /* ── Category Section ──────────────────── */
+  .category {
     max-width: 1320px; margin: 0 auto;
     padding: 0 36px 96px;
-    column-count: 3;
-    column-gap: 28px;
+  }
+  .cat-header {
+    text-align: center; padding: 48px 0 40px;
+  }
+  .cat-header .cat-name {
+    font-family: Georgia, 'Noto Serif SC', serif;
+    font-size: 20px; color: #666; letter-spacing: 4px;
+  }
+  .cat-header .cat-en {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: #bbb; margin-top: 6px;
+  }
+  .cat-cover {
+    margin-bottom: 32px;
+    cursor: pointer;
+  }
+  .cat-cover img {
+    width: 100%; height: auto; display: block;
+    transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+  }
+  .cat-cover:hover img { transform: scale(1.02); }
+
+  .masonry {
+    column-count: 3; column-gap: 24px;
   }
   .masonry .card {
-    break-inside: avoid;
-    margin-bottom: 28px;
+    break-inside: avoid; margin-bottom: 24px;
     cursor: pointer;
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity .9s cubic-bezier(.25,.46,.45,.94),
-                transform .9s cubic-bezier(.25,.46,.45,.94);
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .8s cubic-bezier(.25,.46,.45,.94),
+                transform .8s cubic-bezier(.25,.46,.45,.94);
   }
   .masonry .card.visible { opacity: 1; transform: translateY(0); }
   .masonry .card img {
-    width: 100%; height: auto;
-    display: block;
-    transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+    width: 100%; height: auto; display: block;
+    transition: transform .5s cubic-bezier(.25,.46,.45,.94);
   }
   .masonry .card:hover img { transform: scale(1.025); }
 
@@ -126,39 +142,36 @@
     max-width: 420px; margin: 0 auto;
   }
   .about .rule {
-    width: 24px; height: 1px;
-    background: #d0cec8; margin: 0 auto 40px;
+    width: 20px; height: 1px;
+    background: #d0cec8; margin: 0 auto 36px;
   }
   .about p {
-    font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'Songti SC', serif;
+    font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', serif;
     font-size: 13px; color: #999; line-height: 2.4;
     letter-spacing: 1px;
   }
-  .about .contact {
-    margin-top: 36px;
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: #bbb; font-style: normal; font-family: inherit;
-  }
 
   /* ── Contact ───────────────────────────── */
-  .contact-section {
+  .contact {
     text-align: center; padding: 0 24px 96px;
   }
-  .contact-section span {
-    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
-    color: #bbb;
+  .contact .contact-title {
+    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+    color: #bbb; margin-bottom: 24px;
   }
-  .contact-section a {
-    display: block; margin-top: 14px;
-    font-size: 13px; color: #777; text-decoration: none;
-    letter-spacing: 1px;
+  .contact .links {
+    display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+  }
+  .contact a {
+    text-decoration: none; color: #999;
+    font-size: 12px; letter-spacing: 2px;
     transition: color .3s;
   }
-  .contact-section a:hover { color: #333; }
+  .contact a:hover { color: #444; }
 
   /* ── Footer ────────────────────────────── */
   footer {
-    text-align: center; padding: 0 24px 48px;
+    text-align: center; padding: 0 24px 44px;
     font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
     color: #ccc;
   }
@@ -166,7 +179,7 @@
   /* ── Lightbox ──────────────────────────── */
   .lightbox {
     position: fixed; inset: 0; z-index: 1000;
-    background: rgba(16,16,16,.94);
+    background: rgba(14,14,14,.95);
     display: none; align-items: center; justify-content: center;
     cursor: zoom-out;
     opacity: 0; transition: opacity .35s;
@@ -174,19 +187,18 @@
   .lightbox.open { display: flex; opacity: 1; }
   .lightbox img {
     max-width: 86vw; max-height: 86vh;
-    object-fit: contain;
-    cursor: default;
-    animation: lbReveal .45s cubic-bezier(.25,.46,.45,.94);
+    object-fit: contain; cursor: default;
+    animation: lbIn .45s cubic-bezier(.25,.46,.45,.94);
   }
-  @keyframes lbReveal {
+  @keyframes lbIn {
     from { opacity: 0; transform: scale(.93); }
     to   { opacity: 1; transform: scale(1); }
   }
   .lightbox .lb-close {
-    position: absolute; top: 28px; right: 36px;
+    position: absolute; top: 26px; right: 34px;
     color: rgba(255,255,255,.4); font-size: 26px; cursor: pointer;
     width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-    transition: color .3s; line-height: 1;
+    transition: color .3s;
   }
   .lightbox .lb-close:hover { color: #fff; }
   .lightbox .lb-nav {
@@ -197,82 +209,79 @@
     transition: color .3s;
   }
   .lightbox .lb-nav:hover { color: #fff; }
-  .lightbox .lb-nav.prev { left: 18px; }
-  .lightbox .lb-nav.next { right: 18px; }
+  .lightbox .lb-nav.prev { left: 16px; }
+  .lightbox .lb-nav.next { right: 16px; }
   .lightbox .lb-count {
-    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
     color: rgba(255,255,255,.25); font-size: 11px; letter-spacing: 4px;
   }
 
   /* ── Responsive ────────────────────────── */
   @media (max-width: 900px) {
-    .masonry { column-count: 2; column-gap: 18px; padding: 0 20px 64px; }
-    .masonry .card { margin-bottom: 18px; }
+    .masonry { column-count: 2; column-gap: 16px; }
+    .masonry .card { margin-bottom: 16px; }
+    .category { padding: 0 20px 64px; }
     .hero-wrap { padding: 88px 24px 24px; }
     .nav { padding: 24px 16px; }
-    .nav .sep { margin: 0 16px; }
-    .spacer { height: 64px; }
+    .nav .sep { margin: 0 14px; }
+    .gap { height: 48px; }
   }
 
   @media (max-width: 560px) {
-    .masonry { column-count: 2; column-gap: 10px; padding: 0 12px 48px; }
+    .masonry { column-count: 2; column-gap: 10px; }
     .masonry .card { margin-bottom: 10px; }
-    .hero-wrap { padding: 72px 12px 20px; }
+    .category { padding: 0 12px 48px; }
+    .hero-wrap { padding: 72px 12px 18px; }
     .nav { padding: 18px 12px; }
     .nav a { font-size: 10px; letter-spacing: 3px; }
-    .nav .sep { margin: 0 12px; font-size: 10px; }
+    .nav .sep { margin: 0 10px; }
+    .hero-slide .label { font-size: 11px; bottom: 14px; left: 16px; }
+    .cat-header .cat-name { font-size: 17px; }
     .quote p { font-size: 14px; }
-    .quote .line { margin: 24px auto; }
-    .spacer { height: 48px; }
-    .about { padding: 0 20px 80px; }
-    .contact-section { padding: 0 20px 64px; }
-    .about p { font-size: 12px; }
+    .gap { height: 36px; }
+    .about { padding: 0 20px 48px; }
+    .contact .links { gap: 20px; }
     .lightbox .lb-nav { font-size: 22px; width: 40px; height: 40px; }
     .lightbox .lb-nav.prev { left: 6px; }
     .lightbox .lb-nav.next { right: 6px; }
-    .lightbox .lb-close { top: 16px; right: 20px; font-size: 22px; }
+    .lightbox .lb-close { top: 14px; right: 18px; font-size: 22px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Navigation -->
 <header class="nav" id="nav">
   <a href="#home">Home</a>
   <span class="sep">·</span>
   <a href="#gallery">Gallery</a>
   <span class="sep">·</span>
   <a href="#about">About</a>
+  <span class="sep">·</span>
+  <a href="#contact">Contact</a>
 </header>
 
-<!-- Hero -->
 <section id="home">
   <div class="hero-wrap" id="heroWrap">
     <div class="hero-stage" id="heroStage"></div>
-    <div class="hero-foot">
-      <div class="hero-dots" id="heroDots"></div>
-    </div>
+    <div class="hero-foot"><div class="hero-dots" id="heroDots"></div></div>
   </div>
 </section>
 
-<div class="spacer"></div>
+<div class="gap"></div>
 
-<!-- Quote -->
 <section class="quote">
   <p>光与影之间<br>寻一处安静</p>
   <span class="line"></span>
 </section>
 
-<div class="spacer"></div>
+<div class="gap"></div>
 
-<!-- Gallery -->
-<section id="gallery" class="gallery-section">
-  <div class="masonry" id="masonry"></div>
+<section id="gallery">
+  <div id="categories"></div>
 </section>
 
-<div class="spacer"></div>
+<div class="gap"></div>
 
-<!-- About -->
 <section id="about">
   <div class="about">
     <div class="rule"></div>
@@ -282,20 +291,23 @@
       等一束光<br>
       照亮那些原本就在那里的事物。
     </p>
-    <p class="contact">现居中国</p>
   </div>
 </section>
 
-<!-- Contact -->
-<section class="contact-section">
-  <span>Contact</span>
-  <a href="mailto:3290281953@qq.com">3290281953@qq.com</a>
+<section id="contact">
+  <div class="contact">
+    <div class="contact-title">Contact</div>
+    <div class="links">
+      <a href="mailto:3290281953@qq.com">Email</a>
+      <a href="https://github.com/V23V23" target="_blank">GitHub</a>
+      <a href="#" id="igLink">Instagram</a>
+      <a href="#" id="wxLink">微信</a>
+    </div>
+  </div>
 </section>
 
-<!-- Footer -->
 <footer>&copy; 2026</footer>
 
-<!-- Lightbox -->
 <div class="lightbox" id="lightbox">
   <span class="lb-close" id="lbClose">&times;</span>
   <button class="lb-nav prev" id="lbPrev">&#8249;</button>
@@ -306,44 +318,65 @@
 
 <script>
 (function() {
-  var images = [
-    'images/DSC05905.JPG',
-    'images/DSC05984.JPG',
-    'images/DSC06211.JPG',
-    'images/DSC06260.JPG',
-    'images/DSC06315.JPG',
-    'images/DSC06336.JPG',
-    'images/DSC06636.JPG',
-    'images/DSC06670.JPG',
-    'images/DSC06674.JPG',
-    'images/DSC06755.JPG',
-    'images/DSC07278.JPG'
+
+  /* ═══ Category Data ═══ */
+  var categories = [
+    { id: 'tibet',      name: '西藏', en: 'Tibet',      folder: 'images/Tibet/',      count: 10 },
+    { id: 'changsha',   name: '长沙', en: 'Changsha',   folder: 'images/changsha/',   count: 17 },
+    { id: 'chongqing',  name: '重庆', en: 'Chongqing',  folder: 'images/chongqing/',  count: 43 },
+    { id: 'coast',      name: '海岸', en: 'Coast',      folder: 'images/coast/',      count: 5  },
+    { id: 'dujiangyan', name: '都江堰', en: 'Dujiangyan',folder: 'images/dujiangyan/', count: 26 },
+    { id: 'northwest',  name: '西北', en: 'Northwest',  folder: 'images/northwest/',  count: 5  }
   ];
+
+  var prefixMap = { tibet:'A', changsha:'B', chongqing:'C', coast:'D', dujiangyan:'E', northwest:'F' };
+
+  // Build flat image list and category image lists
+  var allImages = [];
+  var catImages = {};
+
+  categories.forEach(function(cat) {
+    var list = [];
+    var p = prefixMap[cat.id];
+    for (var i = 1; i <= cat.count; i++) {
+      var path = cat.folder + p + i + '.jpg';
+      list.push(path);
+      allImages.push(path);
+    }
+    catImages[cat.id] = list;
+  });
 
   /* ═══ Hero Carousel ═══ */
   var heroCurrent = 0;
   var heroStage = document.getElementById('heroStage');
   var heroDots = document.getElementById('heroDots');
   var heroWrap = document.getElementById('heroWrap');
-  var wheelTimer;
+  var wheelTimer, autoTimer;
+  var heroSlides = [];
 
-  images.forEach(function(src, i) {
+  categories.forEach(function(cat, i) {
+    var cover = cat.folder + prefixMap[cat.id] + '1.jpg';
+    heroSlides.push(cover);
+
     var slide = document.createElement('div');
     slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
     var img = document.createElement('img');
-    img.src = src;
-    img.alt = 'Photograph ' + (i + 1);
+    img.src = cover;
+    img.alt = cat.name;
     if (i === 0) img.setAttribute('fetchpriority', 'high');
     else img.setAttribute('loading', 'lazy');
-    img.addEventListener('click', function() { openLightbox(i); });
+    img.addEventListener('click', function() { openLightbox(allImages.indexOf(cover)); });
     slide.appendChild(img);
+
+    var label = document.createElement('span');
+    label.className = 'label';
+    label.textContent = cat.name + ' · ' + cat.en;
+    slide.appendChild(label);
     heroStage.appendChild(slide);
 
     var dot = document.createElement('span');
     if (i === 0) dot.className = 'active';
-    dot.addEventListener('click', (function(idx) {
-      return function() { goToHero(idx); };
-    })(i));
+    dot.addEventListener('click', (function(idx) { return function() { goToHero(idx); }; })(i));
     heroDots.appendChild(dot);
   });
 
@@ -353,18 +386,16 @@
     slides.forEach(function(s, i) { s.classList.toggle('active', i === idx); });
     dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
     heroCurrent = idx;
-    resetAutoPlay();
+    resetAuto();
   }
+  function heroNext() { goToHero((heroCurrent + 1) % heroSlides.length); }
+  function heroPrev() { goToHero((heroCurrent - 1 + heroSlides.length) % heroSlides.length); }
 
-  function heroNext() { goToHero((heroCurrent + 1) % images.length); }
-  function heroPrev() { goToHero((heroCurrent - 1 + images.length) % images.length); }
-
-  var autoTimer;
-  function resetAutoPlay() {
+  function resetAuto() {
     clearInterval(autoTimer);
     autoTimer = setInterval(heroNext, 5000);
   }
-  resetAutoPlay();
+  resetAuto();
 
   heroWrap.addEventListener('wheel', function(e) {
     e.preventDefault();
@@ -386,20 +417,14 @@
     else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40) { dy > 0 ? heroNext() : heroPrev(); }
   });
 
-  document.addEventListener('keydown', function(e) {
-    if (lbOpen) return;
-    if (e.key === 'ArrowLeft') heroPrev();
-    if (e.key === 'ArrowRight') heroNext();
-  });
-
-  /* ═══ Nav Scroll Background ═══ */
+  /* ═══ Nav scroll ───────────────────────── */
   var nav = document.getElementById('nav');
   window.addEventListener('scroll', function() {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   });
 
-  /* ═══ Masonry + Scroll Reveal ═══ */
-  var masonry = document.getElementById('masonry');
+  /* ═══ Category Sections ────────────────── */
+  var catContainer = document.getElementById('categories');
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
@@ -409,17 +434,57 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -24px 0px' });
 
-  images.forEach(function(src, i) {
-    var card = document.createElement('div');
-    card.className = 'card';
-    var img = document.createElement('img');
-    img.src = src;
-    img.alt = 'Photograph ' + (i + 1);
-    img.setAttribute('loading', 'lazy');
-    card.appendChild(img);
-    card.addEventListener('click', function() { openLightbox(i); });
-    observer.observe(card);
-    masonry.appendChild(card);
+  categories.forEach(function(cat, catIdx) {
+    var section = document.createElement('div');
+    section.className = 'category';
+    section.id = cat.id;
+
+    // Header
+    var header = document.createElement('div');
+    header.className = 'cat-header';
+    header.innerHTML = '<div class="cat-name">' + cat.name + '</div><div class="cat-en">' + cat.en + '</div>';
+    section.appendChild(header);
+
+    // Cover
+    var coverImg = new Image();
+    coverImg.src = cat.folder + prefixMap[cat.id] + '1.jpg';
+    coverImg.setAttribute('loading', 'lazy');
+    coverImg.alt = cat.name;
+    var coverWrap = document.createElement('div');
+    coverWrap.className = 'cat-cover';
+    coverWrap.appendChild(coverImg);
+    (function(idx) {
+      coverWrap.addEventListener('click', function() {
+        openLightbox(allImages.indexOf(cat.folder + prefixMap[cat.id] + '1.jpg'));
+      });
+    })();
+    section.appendChild(coverWrap);
+
+    // Masonry (all photos including cover)
+    var masonry = document.createElement('div');
+    masonry.className = 'masonry';
+
+    catImages[cat.id].forEach(function(src) {
+      var card = document.createElement('div');
+      card.className = 'card';
+      var img = new Image();
+      img.src = src;
+      img.alt = cat.name;
+      img.setAttribute('loading', 'lazy');
+      card.appendChild(img);
+      card.addEventListener('click', function() { openLightbox(allImages.indexOf(src)); });
+      observer.observe(card);
+      masonry.appendChild(card);
+    });
+    section.appendChild(masonry);
+    catContainer.appendChild(section);
+  });
+
+  /* ═══ Keyboard (hero only when lb closed) ═══ */
+  document.addEventListener('keydown', function(e) {
+    if (lbOpen) return;
+    if (e.key === 'ArrowLeft') heroPrev();
+    if (e.key === 'ArrowRight') heroNext();
   });
 
   /* ═══ Lightbox ═══ */
@@ -434,21 +499,18 @@
     document.body.style.overflow = 'hidden';
     updateLightbox();
   }
-
   function closeLightbox() {
     lbOpen = false;
     lb.classList.remove('open');
     document.body.style.overflow = '';
     lbImg.src = '';
   }
-
   function updateLightbox() {
-    lbImg.src = images[lbIdx];
-    lbCount.textContent = (lbIdx + 1) + ' / ' + images.length;
+    lbImg.src = allImages[lbIdx];
+    lbCount.textContent = (lbIdx + 1) + ' / ' + allImages.length;
   }
-
-  function lbNext() { lbIdx = (lbIdx + 1) % images.length; updateLightbox(); }
-  function lbPrev() { lbIdx = (lbIdx - 1 + images.length) % images.length; updateLightbox(); }
+  function lbNext() { lbIdx = (lbIdx + 1) % allImages.length; updateLightbox(); }
+  function lbPrev() { lbIdx = (lbIdx - 1 + allImages.length) % allImages.length; updateLightbox(); }
 
   document.getElementById('lbClose').addEventListener('click', closeLightbox);
   document.getElementById('lbNext').addEventListener('click', function(e) { e.stopPropagation(); lbNext(); });
