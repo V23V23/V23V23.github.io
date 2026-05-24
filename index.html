@@ -197,20 +197,45 @@
     opacity: 0; transition: opacity .35s;
   }
   .lightbox.open { display: flex; opacity: 1; }
-  .lightbox canvas {
+  .lb-stage {
+    position: relative;
     max-width: 86vw; max-height: 86vh;
-    cursor: default;
-    animation: lbIn .45s cubic-bezier(.25,.46,.45,.94);
+    display: flex; align-items: center; justify-content: center;
   }
-  @keyframes lbIn {
-    from { opacity: 0; transform: scale(.93); }
-    to   { opacity: 1; transform: scale(1); }
+  .lb-stage::after {
+    content: '© V23V23';
+    position: absolute; bottom: 10px; right: 14px;
+    font-size: 12px; letter-spacing: 2px;
+    color: rgba(255,255,255,.3);
+    pointer-events: none; user-select: none;
+    text-shadow: 0 1px 4px rgba(0,0,0,.5);
+    z-index: 2;
   }
+  .lightbox img {
+    max-width: 86vw; max-height: 86vh;
+    object-fit: contain; cursor: default;
+    transition: opacity .25s ease;
+    z-index: 1;
+  }
+  .lightbox img.loading { opacity: 0; }
+  .lb-loader {
+    position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+    pointer-events: none; z-index: 0;
+  }
+  .lb-loader::after {
+    content: '';
+    width: 24px; height: 24px;
+    border: 1px solid rgba(255,255,255,.2);
+    border-top-color: rgba(255,255,255,.6);
+    border-radius: 50%;
+    animation: lbSpin .6s linear infinite;
+  }
+  @keyframes lbSpin { to { transform: rotate(360deg); } }
   .lightbox .lb-close {
     position: absolute; top: 26px; right: 34px;
     color: rgba(255,255,255,.4); font-size: 26px; cursor: pointer;
     width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-    transition: color .3s;
+    transition: color .3s; z-index: 3;
   }
   .lightbox .lb-close:hover { color: #fff; }
   .lightbox .lb-nav {
@@ -218,7 +243,7 @@
     background: none; border: none;
     color: rgba(255,255,255,.3); font-size: 30px; cursor: pointer;
     width: 52px; height: 52px; display: flex; align-items: center; justify-content: center;
-    transition: color .3s;
+    transition: color .3s; z-index: 3;
   }
   .lightbox .lb-nav:hover { color: #fff; }
   .lightbox .lb-nav.prev { left: 16px; }
@@ -226,6 +251,7 @@
   .lightbox .lb-count {
     position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
     color: rgba(255,255,255,.25); font-size: 11px; letter-spacing: 4px;
+    z-index: 3;
   }
 
   /* ── Responsive ────────────────────────── */
@@ -323,7 +349,10 @@
 <div class="lightbox" id="lightbox">
   <span class="lb-close" id="lbClose">&times;</span>
   <button class="lb-nav prev" id="lbPrev">&#8249;</button>
-  <canvas id="lbCanvas"></canvas>
+  <div class="lb-stage" id="lbStage">
+    <img src="" alt="" id="lbImg">
+    <div class="lb-loader" id="lbLoader"></div>
+  </div>
   <button class="lb-nav next" id="lbNext">&#8250;</button>
   <span class="lb-count" id="lbCount"></span>
 </div>
@@ -500,51 +529,79 @@
   });
 
   /* ═══ Lightbox ═══ */
-  var lbOpen = false, lbIdx = 0;
+  var lbOpen = false, lbIdx = 0, lbBusy = false;
   var lb = document.getElementById('lightbox');
-  var lbCanvas = document.getElementById('lbCanvas');
+  var lbImg = document.getElementById('lbImg');
+  var lbLoader = document.getElementById('lbLoader');
+  var lbStage = document.getElementById('lbStage');
   var lbCount = document.getElementById('lbCount');
+  var preloadCache = {};
+
+  function preload(idx) {
+    if (idx < 0 || idx >= allImages.length || preloadCache[idx]) return;
+    var img = new Image();
+    img.src = allImages[idx];
+    preloadCache[idx] = img;
+  }
 
   function openLightbox(idx) {
-    lbIdx = idx; lbOpen = true;
+    lbIdx = idx; lbOpen = true; lbBusy = true;
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
-    updateLightbox();
+    setImage(idx);
+    preload((idx + 1) % allImages.length);
+    preload((idx - 1 + allImages.length) % allImages.length);
   }
+
   function closeLightbox() {
     lbOpen = false;
     lb.classList.remove('open');
     document.body.style.overflow = '';
+    lbBusy = false;
   }
-  function updateLightbox() {
-    var img = new Image();
-    img.onload = function() {
-      var maxW = window.innerWidth * 0.86;
-      var maxH = window.innerHeight * 0.86;
-      var scale = Math.min(maxW / img.width, maxH / img.height, 1);
-      var w = img.width * scale, h = img.height * scale;
-      lbCanvas.width = w; lbCanvas.height = h;
-      lbCanvas.style.width = w + 'px';
-      lbCanvas.style.height = h + 'px';
-      var ctx = lbCanvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, w, h);
-      // Watermark
-      var fontSize = Math.max(12, w * 0.025);
-      ctx.font = fontSize + 'px -apple-system, sans-serif';
-      ctx.fillStyle = 'rgba(255,255,255,0.3)';
-      ctx.textAlign = 'right';
-      ctx.fillText('© V23V23', w - fontSize * 0.8, h - fontSize * 0.6);
-    };
-    img.src = allImages[lbIdx];
-    lbCount.textContent = (lbIdx + 1) + ' / ' + allImages.length;
+
+  function setImage(idx) {
+    lbCount.textContent = (idx + 1) + ' / ' + allImages.length;
+    lbImg.classList.add('loading');
+    lbLoader.style.display = 'flex';
+    var src = allImages[idx];
+    var loader = preloadCache[idx] || new Image();
+    if (!loader.complete || !loader.src || loader.src !== src) {
+      loader = new Image();
+      loader.src = src;
+      preloadCache[idx] = loader;
+    }
+    function onDone() {
+      lbImg.src = src;
+      // Wait for paint before revealing
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          lbImg.classList.remove('loading');
+          lbLoader.style.display = 'none';
+          lbBusy = false;
+        });
+      });
+      preload((idx + 1) % allImages.length);
+      preload((idx - 1 + allImages.length) % allImages.length);
+      preload((idx + 2) % allImages.length);
+    }
+    if (loader.complete) { onDone(); }
+    else { loader.onload = onDone; loader.onerror = onDone; }
   }
-  function lbNext() { lbIdx = (lbIdx + 1) % allImages.length; updateLightbox(); }
-  function lbPrev() { lbIdx = (lbIdx - 1 + allImages.length) % allImages.length; updateLightbox(); }
+
+  function lbNext() {
+    if (lbBusy) return;
+    lbBusy = true; lbIdx = (lbIdx + 1) % allImages.length; setImage(lbIdx);
+  }
+  function lbPrev() {
+    if (lbBusy) return;
+    lbBusy = true; lbIdx = (lbIdx - 1 + allImages.length) % allImages.length; setImage(lbIdx);
+  }
 
   document.getElementById('lbClose').addEventListener('click', closeLightbox);
   document.getElementById('lbNext').addEventListener('click', function(e) { e.stopPropagation(); lbNext(); });
   document.getElementById('lbPrev').addEventListener('click', function(e) { e.stopPropagation(); lbPrev(); });
-  lb.addEventListener('click', function(e) { if (e.target === lb) closeLightbox(); });
+  lb.addEventListener('click', function(e) { if (e.target === lb || e.target === lbStage) closeLightbox(); });
 
   document.addEventListener('keydown', function(e) {
     if (!lbOpen) return;
@@ -556,6 +613,7 @@
   var lbTX = 0;
   lb.addEventListener('touchstart', function(e) { lbTX = e.touches[0].clientX; });
   lb.addEventListener('touchend', function(e) {
+    if (lbBusy) return;
     var diff = lbTX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) { diff > 0 ? lbNext() : lbPrev(); }
   });
