@@ -7,210 +7,257 @@
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+
   body {
-    background: #0d0d0d;
-    color: #b0b0b0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
+    background: #f5f4f1;
+    color: #3a3a3a;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  a { color: inherit; text-decoration: none; }
 
-  /* ── Nav ─────────────────────────────── */
-  nav {
+  /* ── Navigation ────────────────────────── */
+  .nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 28px 48px;
     display: flex; justify-content: space-between; align-items: center;
-    padding: 24px 40px;
-    mix-blend-mode: difference;
+    background: linear-gradient(to bottom, rgba(245,244,241,.95), rgba(245,244,241,0));
+    transition: background .4s;
   }
-  nav .logo { font-size: 18px; font-weight: 600; letter-spacing: 3px; color: #fff; text-transform: uppercase; }
-  nav .links { display: flex; gap: 32px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+  .nav.scrolled { background: rgba(245,244,241,.92); }
+  .nav a {
+    text-decoration: none; color: #4a4a4a;
+    font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
+    transition: color .3s;
+  }
+  .nav a:hover { color: #111; }
+  .nav .brand { font-weight: 500; letter-spacing: 5px; font-size: 13px; }
+  .nav .links { display: flex; gap: 40px; }
 
-  /* ── Hero Carousel ────────────────────── */
-  .hero {
-    position: relative; width: 100%; height: 100vh;
-    overflow: hidden; background: #000;
+  /* ── Hero ──────────────────────────────── */
+  .hero-wrap {
+    padding: 120px 48px 64px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
-  .hero .slide {
-    position: absolute; inset: 0;
-    opacity: 0; transition: opacity 1.2s cubic-bezier(.4,0,.2,1);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .hero .slide.active { opacity: 1; z-index: 1; }
-  .hero .slide img {
-    width: 100%; height: 100%;
-    object-fit: contain;
+  .hero-img {
+    width: 100%;
+    aspect-ratio: 3/2;
+    object-fit: cover;
     cursor: pointer;
-    background: #000;
+    display: block;
+    background: #e8e6e1;
+    box-shadow: 0 2px 20px rgba(0,0,0,.06);
+    transition: box-shadow .5s, transform .1s;
   }
-  .hero .dots {
-    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 12px; z-index: 10;
+  .hero-img:hover { box-shadow: 0 4px 32px rgba(0,0,0,.1); }
+  .hero-caption {
+    margin-top: 20px;
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    color: #aaa;
+    text-align: right;
   }
-  .hero .dots span {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: rgba(255,255,255,.35);
-    cursor: pointer; transition: background .3s;
-  }
-  .hero .dots span.active { background: #fff; }
 
-  .hero .arrows {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    display: flex; justify-content: space-between; width: 100%;
-    padding: 0 20px; z-index: 10; pointer-events: none;
+  /* ── Quote ─────────────────────────────── */
+  .quote {
+    text-align: center; padding: 80px 24px;
+    max-width: 480px; margin: 0 auto;
   }
-  .hero .arrows button {
-    background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.15);
-    color: #fff; width: 48px; height: 48px; border-radius: 50%;
-    cursor: pointer; font-size: 20px; pointer-events: auto;
-    transition: background .3s, border-color .3s;
-    display: flex; align-items: center; justify-content: center;
-    backdrop-filter: blur(4px);
-  }
-  .hero .arrows button:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.4); }
-
-  /* ── Section Titles ───────────────────── */
-  .section-title {
-    text-align: center; padding: 100px 20px 48px;
-    font-size: 13px; letter-spacing: 4px; text-transform: uppercase;
+  .quote p {
+    font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'Songti SC', serif;
+    font-size: 18px; line-height: 2;
     color: #666;
+    letter-spacing: 2px;
+  }
+  .quote .line {
+    display: block; width: 32px; height: 1px;
+    background: #ccc; margin: 28px auto;
   }
 
-  /* ── Grid ─────────────────────────────── */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2px;
-    padding: 0 2px 2px;
+  /* ── Gallery Section ───────────────────── */
+  .gallery-header {
+    text-align: center; padding: 40px 24px 48px;
   }
-  .grid .item {
-    position: relative; overflow: hidden; aspect-ratio: 3/2;
-    cursor: pointer; background: #111;
+  .gallery-header h2 {
+    font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+    color: #999; font-weight: 400;
   }
-  .grid .item img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform .5s cubic-bezier(.4,0,.2,1);
-    will-change: transform;
-  }
-  .grid .item:hover img { transform: scale(1.05); }
-  .grid .item .overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,.55), transparent 50%);
-    opacity: 0; transition: opacity .35s;
-    display: flex; align-items: flex-end; padding: 20px;
-    font-size: 12px; letter-spacing: 2px; color: #fff;
-  }
-  .grid .item:hover .overlay { opacity: 1; }
 
-  /* ── Lightbox ─────────────────────────── */
+  /* Masonry via CSS columns */
+  .masonry {
+    max-width: 1280px; margin: 0 auto;
+    padding: 0 32px 80px;
+    column-count: 3;
+    column-gap: 24px;
+  }
+  .masonry .card {
+    break-inside: avoid;
+    margin-bottom: 24px;
+    cursor: pointer;
+    background: #e8e6e1;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s cubic-bezier(.25,.46,.45,.94),
+                transform .7s cubic-bezier(.25,.46,.45,.94);
+  }
+  .masonry .card.visible { opacity: 1; transform: translateY(0); }
+  .masonry .card img {
+    width: 100%; height: auto;
+    display: block;
+    transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+    box-shadow: 0 1px 8px rgba(0,0,0,.04);
+  }
+  .masonry .card:hover img { transform: scale(1.03); }
+
+  /* ── About ─────────────────────────────── */
+  .about {
+    text-align: center; padding: 80px 24px 100px;
+    max-width: 400px; margin: 0 auto;
+  }
+  .about .dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: #ccc; margin: 0 auto 36px;
+  }
+  .about p {
+    font-size: 14px; color: #888; line-height: 2.2;
+    letter-spacing: 1px;
+  }
+
+  /* ── Footer ────────────────────────────── */
+  footer {
+    text-align: center; padding: 40px 24px 48px;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: #bbb;
+  }
+
+  /* ── Lightbox ──────────────────────────── */
   .lightbox {
     position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,.92);
+    background: rgba(20,20,20,.95);
     display: none; align-items: center; justify-content: center;
     cursor: zoom-out;
-    backdrop-filter: blur(8px);
+    opacity: 0; transition: opacity .3s;
   }
-  .lightbox.open { display: flex; }
+  .lightbox.open { display: flex; opacity: 1; }
   .lightbox img {
-    max-width: 90vw; max-height: 90vh;
+    max-width: 88vw; max-height: 88vh;
     object-fit: contain;
-    box-shadow: 0 20px 60px rgba(0,0,0,.6);
-    border-radius: 2px;
     cursor: default;
-    animation: fadeIn .3s ease;
+    animation: lbReveal .4s cubic-bezier(.25,.46,.45,.94);
   }
-  @keyframes fadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
-
-  .lightbox .close {
-    position: absolute; top: 24px; right: 32px;
-    color: #fff; font-size: 32px; cursor: pointer;
-    width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-    border-radius: 50%; transition: background .3s;
+  @keyframes lbReveal {
+    from { opacity: 0; transform: scale(.94); }
+    to   { opacity: 1; transform: scale(1); }
   }
-  .lightbox .close:hover { background: rgba(255,255,255,.1); }
 
-  .lightbox .nav {
+  .lightbox .lb-close {
+    position: absolute; top: 28px; right: 36px;
+    color: rgba(255,255,255,.5); font-size: 28px; cursor: pointer;
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    transition: color .3s; line-height: 1;
+  }
+  .lightbox .lb-close:hover { color: #fff; }
+
+  .lightbox .lb-nav {
     position: absolute; top: 50%; transform: translateY(-50%);
-    background: none; border: none; color: #fff;
-    font-size: 36px; cursor: pointer;
-    width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;
-    border-radius: 50%; transition: background .3s;
+    background: none; border: none;
+    color: rgba(255,255,255,.4); font-size: 32px; cursor: pointer;
+    width: 52px; height: 52px; display: flex; align-items: center; justify-content: center;
+    transition: color .3s;
   }
-  .lightbox .nav:hover { background: rgba(255,255,255,.1); }
-  .lightbox .nav.prev { left: 20px; }
-  .lightbox .nav.next { right: 20px; }
+  .lightbox .lb-nav:hover { color: #fff; }
+  .lightbox .lb-nav.prev { left: 20px; }
+  .lightbox .lb-nav.next { right: 20px; }
 
-  .lightbox .counter {
-    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
-    color: rgba(255,255,255,.45); font-size: 12px; letter-spacing: 3px;
-  }
-
-  /* ── Footer ───────────────────────────── */
-  footer {
-    text-align: center; padding: 80px 20px 40px;
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: #444;
+  .lightbox .lb-count {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,.3); font-size: 11px; letter-spacing: 4px;
   }
 
-  /* ── Responsive ───────────────────────── */
-  @media (max-width: 768px) {
-    nav { padding: 16px 20px; }
-    nav .links { gap: 16px; font-size: 11px; }
-    .hero { height: 60vh; }
-    .hero .arrows { padding: 0 8px; }
-    .hero .arrows button { width: 36px; height: 36px; font-size: 16px; }
-    .hero .dots { bottom: 16px; gap: 8px; }
-    .hero .dots span { width: 6px; height: 6px; }
-    .grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-    .hero .slide img { object-fit: cover; }
-    .lightbox .nav { font-size: 28px; width: 44px; height: 44px; }
-    .lightbox .close { top: 12px; right: 16px; font-size: 28px; }
-    .section-title { padding: 60px 20px 32px; }
+  /* ── Responsive ────────────────────────── */
+  @media (max-width: 900px) {
+    .masonry { column-count: 2; column-gap: 16px; padding: 0 20px 60px; }
+    .masonry .card { margin-bottom: 16px; }
+    .hero-wrap { padding: 100px 28px 40px; }
+    .nav { padding: 20px 28px; }
+    .nav .links { gap: 24px; }
   }
 
-  @media (max-width: 480px) {
-    .hero { height: 50vh; }
-    .grid { grid-template-columns: 1fr 1fr; gap: 1px; }
-    .hero .arrows button { width: 32px; height: 32px; font-size: 14px; }
+  @media (max-width: 560px) {
+    .masonry { column-count: 2; column-gap: 10px; padding: 0 12px 48px; }
+    .masonry .card { margin-bottom: 10px; }
+    .hero-wrap { padding: 80px 16px 32px; }
+    .nav { padding: 16px 16px; }
+    .nav .links { gap: 18px; }
+    .nav a { font-size: 11px; letter-spacing: 3px; }
+    .nav .brand { letter-spacing: 3px; }
+    .quote p { font-size: 15px; }
+    .quote { padding: 48px 20px; }
+    .about { padding: 48px 20px 72px; }
+    .lightbox .lb-nav { font-size: 24px; width: 40px; height: 40px; }
+    .lightbox .lb-nav.prev { left: 8px; }
+    .lightbox .lb-nav.next { right: 8px; }
   }
 </style>
 </head>
 <body>
 
 <!-- Navigation -->
-<nav>
-  <a href="#" class="logo">Gallery</a>
+<header class="nav" id="nav">
+  <a href="#" class="brand">GALLERY</a>
   <div class="links">
-    <a href="#hero">Home</a>
-    <a href="#grid">Work</a>
+    <a href="#home">Home</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#about">About</a>
   </div>
-</nav>
+</header>
 
-<!-- Hero Carousel -->
-<section class="hero" id="hero">
-  <div class="slides" id="slides"></div>
-  <div class="arrows">
-    <button id="prevBtn" aria-label="Previous">&#10094;</button>
-    <button id="nextBtn" aria-label="Next">&#10095;</button>
+<!-- Hero -->
+<section id="home">
+  <div class="hero-wrap">
+    <img class="hero-img" id="heroImg" src="" alt="Cover photograph" loading="eager">
+    <div class="hero-caption">Selected Work &mdash; 2026</div>
   </div>
-  <div class="dots" id="dots"></div>
 </section>
 
-<!-- Gallery Grid -->
-<div class="section-title" id="grid">Gallery</div>
-<div class="grid" id="gridContainer"></div>
+<!-- Quote -->
+<section class="quote">
+  <p>光与影之间<br>万物静默如谜</p>
+  <span class="line"></span>
+</section>
 
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox">
-  <span class="close" id="lbClose">&times;</span>
-  <button class="nav prev" id="lbPrev">&#10094;</button>
-  <img src="" alt="" id="lbImg">
-  <button class="nav next" id="lbNext">&#10095;</button>
-  <div class="counter" id="lbCounter"></div>
-</div>
+<!-- Gallery -->
+<section id="gallery">
+  <div class="gallery-header">
+    <h2>Gallery</h2>
+  </div>
+  <div class="masonry" id="masonry"></div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="about">
+    <div class="dot"></div>
+    <p>
+      A photographer based in China.<br>
+      Capturing moments of stillness<br>
+      in a restless world.
+    </p>
+  </div>
+</section>
 
 <!-- Footer -->
 <footer>&copy; 2026 Photography Portfolio</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="lb-close" id="lbClose">&times;</span>
+  <button class="lb-nav prev" id="lbPrev">&#8249;</button>
+  <img src="" alt="" id="lbImg">
+  <button class="lb-nav next" id="lbNext">&#8250;</button>
+  <span class="lb-count" id="lbCount"></span>
+</div>
 
 <script>
 (function() {
@@ -225,100 +272,48 @@
     'images/DSC06674.JPG'
   ];
 
-  /* ═══ Carousel ═══ */
-  var current = 0;
-  var slidesEl = document.getElementById('slides');
-  var dotsEl = document.getElementById('dots');
-  var timer;
+  /* ═══ Hero Image ═══ */
+  document.getElementById('heroImg').src = images[0];
+  document.getElementById('heroImg').addEventListener('click', function() { openLightbox(0); });
+
+  /* ═══ Nav Scroll Background ═══ */
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function() {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  /* ═══ Masonry + Scroll Reveal ═══ */
+  var masonry = document.getElementById('masonry');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -20px 0px' });
 
   images.forEach(function(src, i) {
-    var div = document.createElement('div');
-    div.className = 'slide' + (i === 0 ? ' active' : '');
+    var card = document.createElement('div');
+    card.className = 'card';
     var img = document.createElement('img');
     img.src = src;
-    img.alt = 'Photo ' + (i + 1);
-    img.setAttribute('loading', i === 0 ? 'eager' : 'lazy');
-    img.addEventListener('click', function() { openLightbox(i); });
-    div.appendChild(img);
-    slidesEl.appendChild(div);
-
-    var dot = document.createElement('span');
-    if (i === 0) dot.className = 'active';
-    dot.addEventListener('click', (function(idx) { return function() { goTo(idx); }; })(i));
-    dotsEl.appendChild(dot);
-  });
-
-  // Reorder: put dots back at end
-  document.querySelector('.hero').appendChild(dotsEl);
-
-  function updateCarousel() {
-    var slides = slidesEl.querySelectorAll('.slide');
-    var dots = dotsEl.querySelectorAll('span');
-    slides.forEach(function(s, i) { s.classList.toggle('active', i === current); });
-    dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
-  }
-
-  function goTo(idx) {
-    current = idx;
-    updateCarousel();
-    resetTimer();
-  }
-
-  function next() { goTo((current + 1) % images.length); }
-  function prev() { goTo((current - 1 + images.length) % images.length); }
-
-  function resetTimer() {
-    clearInterval(timer);
-    timer = setInterval(next, 5000);
-  }
-
-  document.getElementById('prevBtn').addEventListener('click', function(e) { e.stopPropagation(); prev(); });
-  document.getElementById('nextBtn').addEventListener('click', function(e) { e.stopPropagation(); next(); });
-  resetTimer();
-
-  // Keyboard
-  document.addEventListener('keydown', function(e) {
-    if (document.getElementById('lightbox').classList.contains('open')) return;
-    if (e.key === 'ArrowLeft') prev();
-    if (e.key === 'ArrowRight') next();
-  });
-
-  // Touch swipe for hero
-  var touchStartX = 0;
-  document.querySelector('.hero').addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
-  document.querySelector('.hero').addEventListener('touchend', function(e) {
-    var diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) { diff > 0 ? next() : prev(); }
-  });
-
-  /* ═══ Grid ═══ */
-  var gridEl = document.getElementById('gridContainer');
-  images.forEach(function(src, i) {
-    var item = document.createElement('div');
-    item.className = 'item';
-    var img = document.createElement('img');
-    img.src = src;
-    img.alt = 'Photo ' + (i + 1);
+    img.alt = 'Photograph ' + (i + 1);
     img.setAttribute('loading', 'lazy');
-    var overlay = document.createElement('div');
-    overlay.className = 'overlay';
-    overlay.textContent = 'View';
-    item.appendChild(img);
-    item.appendChild(overlay);
-    item.addEventListener('click', function() { openLightbox(i); });
-    gridEl.appendChild(item);
+    card.appendChild(img);
+    card.addEventListener('click', function() { openLightbox(i); });
+    observer.observe(card);
+    masonry.appendChild(card);
   });
 
   /* ═══ Lightbox ═══ */
-  var lbOpen = false;
-  var lbIdx = 0;
+  var lbOpen = false, lbIdx = 0;
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lbImg');
-  var lbCounter = document.getElementById('lbCounter');
+  var lbCount = document.getElementById('lbCount');
 
   function openLightbox(idx) {
-    lbIdx = idx;
-    lbOpen = true;
+    lbIdx = idx; lbOpen = true;
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
     updateLightbox();
@@ -333,7 +328,7 @@
 
   function updateLightbox() {
     lbImg.src = images[lbIdx];
-    lbCounter.textContent = (lbIdx + 1) + ' / ' + images.length;
+    lbCount.textContent = (lbIdx + 1) + ' / ' + images.length;
   }
 
   function lbNext() { lbIdx = (lbIdx + 1) % images.length; updateLightbox(); }
@@ -351,10 +346,11 @@
     if (e.key === 'ArrowRight') lbNext();
   });
 
-  // Touch swipe for lightbox
-  lb.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
+  // Swipe for lightbox
+  var touchX = 0;
+  lb.addEventListener('touchstart', function(e) { touchX = e.touches[0].clientX; });
   lb.addEventListener('touchend', function(e) {
-    var diff = touchStartX - e.changedTouches[0].clientX;
+    var diff = touchX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) { diff > 0 ? lbNext() : lbPrev(); }
   });
 })();
