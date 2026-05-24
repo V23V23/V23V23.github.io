@@ -9,8 +9,8 @@
   html { scroll-behavior: smooth; }
 
   body {
-    background: #f5f4f1;
-    color: #3a3a3a;
+    background: #f7f6f3;
+    color: #444;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
     line-height: 1.8;
     -webkit-font-smoothing: antialiased;
@@ -20,26 +20,23 @@
   /* ── Navigation ────────────────────────── */
   .nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 28px 48px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: linear-gradient(to bottom, rgba(245,244,241,.95), rgba(245,244,241,0));
-    transition: background .4s;
+    display: flex; justify-content: center;
+    padding: 32px 24px;
+    transition: background .5s;
   }
-  .nav.scrolled { background: rgba(245,244,241,.92); }
+  .nav.scrolled { background: rgba(247,246,243,.88); }
   .nav a {
-    text-decoration: none; color: #4a4a4a;
-    font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
-    transition: color .3s;
+    text-decoration: none; color: #888;
+    font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+    transition: color .4s;
   }
-  .nav a:hover { color: #111; }
-  .nav .brand { font-weight: 500; letter-spacing: 5px; font-size: 13px; }
-  .nav .links { display: flex; gap: 40px; }
+  .nav a:hover { color: #333; }
+  .nav .sep { color: #ccc; margin: 0 24px; font-size: 11px; pointer-events: none; user-select: none; }
 
   /* ── Hero ──────────────────────────────── */
   .hero-wrap {
-    padding: 120px 48px 64px;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 100px 40px 32px;
+    max-width: 1280px; margin: 0 auto;
     cursor: grab;
   }
   .hero-wrap.grabbing { cursor: grabbing; }
@@ -48,12 +45,12 @@
     aspect-ratio: 3/2;
     overflow: hidden;
     background: #e8e6e1;
-    box-shadow: 0 2px 20px rgba(0,0,0,.06);
+    box-shadow: 0 1px 12px rgba(0,0,0,.045);
   }
   .hero-slide {
     position: absolute; inset: 0;
     opacity: 0;
-    transition: opacity .8s cubic-bezier(.4,0,.2,1);
+    transition: opacity 1s cubic-bezier(.4,0,.2,1);
     pointer-events: none;
   }
   .hero-slide.active { opacity: 1; pointer-events: auto; }
@@ -63,163 +60,160 @@
     display: block;
     cursor: pointer;
   }
-  .hero-caption {
-    margin-top: 20px;
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
-    color: #aaa;
+
+  .hero-foot {
+    margin-top: 24px;
+    display: flex; justify-content: flex-end;
   }
-  .hero-dots {
-    display: flex; gap: 10px; align-items: center;
-  }
+  .hero-dots { display: flex; gap: 10px; align-items: center; }
   .hero-dots span {
-    width: 5px; height: 5px; border-radius: 50%;
-    background: #ccc;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: #d0cec8;
     cursor: pointer;
-    transition: background .3s, transform .3s;
+    transition: background .4s, transform .4s;
   }
-  .hero-dots span.active { background: #666; transform: scale(1.4); }
-  .hero-dots span:hover { background: #999; }
+  .hero-dots span.active { background: #888; transform: scale(1.5); }
+  .hero-dots span:hover { background: #aaa; }
+
+  /* ── Section Spacer ────────────────────── */
+  .spacer { height: 96px; }
 
   /* ── Quote ─────────────────────────────── */
   .quote {
-    text-align: center; padding: 80px 24px;
-    max-width: 480px; margin: 0 auto;
+    text-align: center; padding: 0 24px;
+    max-width: 520px; margin: 0 auto;
   }
   .quote p {
     font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'Songti SC', serif;
-    font-size: 18px; line-height: 2;
-    color: #666;
+    font-size: 17px; line-height: 2.2;
+    color: #777;
     letter-spacing: 2px;
   }
   .quote .line {
-    display: block; width: 32px; height: 1px;
-    background: #ccc; margin: 28px auto;
+    display: block; width: 28px; height: 1px;
+    background: #d0cec8; margin: 36px auto;
   }
 
-  /* ── Gallery Section ───────────────────── */
-  .gallery-header {
-    text-align: center; padding: 40px 24px 48px;
-  }
-  .gallery-header h2 {
-    font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
-    color: #999; font-weight: 400;
-  }
+  /* ── Gallery ───────────────────────────── */
+  .gallery-section { padding-top: 48px; }
 
-  /* Masonry via CSS columns */
   .masonry {
-    max-width: 1280px; margin: 0 auto;
-    padding: 0 32px 80px;
+    max-width: 1320px; margin: 0 auto;
+    padding: 0 36px 96px;
     column-count: 3;
-    column-gap: 24px;
+    column-gap: 28px;
   }
   .masonry .card {
     break-inside: avoid;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     cursor: pointer;
-    background: #e8e6e1;
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity .7s cubic-bezier(.25,.46,.45,.94),
-                transform .7s cubic-bezier(.25,.46,.45,.94);
+    transform: translateY(32px);
+    transition: opacity .9s cubic-bezier(.25,.46,.45,.94),
+                transform .9s cubic-bezier(.25,.46,.45,.94);
   }
   .masonry .card.visible { opacity: 1; transform: translateY(0); }
   .masonry .card img {
     width: 100%; height: auto;
     display: block;
-    transition: transform .5s cubic-bezier(.25,.46,.45,.94);
-    box-shadow: 0 1px 8px rgba(0,0,0,.04);
+    transition: transform .6s cubic-bezier(.25,.46,.45,.94);
   }
-  .masonry .card:hover img { transform: scale(1.03); }
+  .masonry .card:hover img { transform: scale(1.025); }
 
   /* ── About ─────────────────────────────── */
   .about {
-    text-align: center; padding: 80px 24px 100px;
-    max-width: 400px; margin: 0 auto;
+    text-align: center; padding: 0 24px 120px;
+    max-width: 420px; margin: 0 auto;
   }
-  .about .dot {
-    width: 4px; height: 4px; border-radius: 50%;
-    background: #ccc; margin: 0 auto 36px;
+  .about .rule {
+    width: 24px; height: 1px;
+    background: #d0cec8; margin: 0 auto 40px;
   }
   .about p {
-    font-size: 14px; color: #888; line-height: 2.2;
-    letter-spacing: 1px;
+    font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'Songti SC', serif;
+    font-size: 13px; color: #999; line-height: 2.4;
+    letter-spacing: 1px; font-style: italic;
+  }
+  .about .contact {
+    margin-top: 36px;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: #bbb; font-style: normal; font-family: inherit;
   }
 
   /* ── Footer ────────────────────────────── */
   footer {
-    text-align: center; padding: 40px 24px 48px;
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: #bbb;
+    text-align: center; padding: 0 24px 48px;
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+    color: #ccc;
   }
 
   /* ── Lightbox ──────────────────────────── */
   .lightbox {
     position: fixed; inset: 0; z-index: 1000;
-    background: rgba(20,20,20,.95);
+    background: rgba(16,16,16,.94);
     display: none; align-items: center; justify-content: center;
     cursor: zoom-out;
-    opacity: 0; transition: opacity .3s;
+    opacity: 0; transition: opacity .35s;
   }
   .lightbox.open { display: flex; opacity: 1; }
   .lightbox img {
-    max-width: 88vw; max-height: 88vh;
+    max-width: 86vw; max-height: 86vh;
     object-fit: contain;
     cursor: default;
-    animation: lbReveal .4s cubic-bezier(.25,.46,.45,.94);
+    animation: lbReveal .45s cubic-bezier(.25,.46,.45,.94);
   }
   @keyframes lbReveal {
-    from { opacity: 0; transform: scale(.94); }
+    from { opacity: 0; transform: scale(.93); }
     to   { opacity: 1; transform: scale(1); }
   }
-
   .lightbox .lb-close {
     position: absolute; top: 28px; right: 36px;
-    color: rgba(255,255,255,.5); font-size: 28px; cursor: pointer;
+    color: rgba(255,255,255,.4); font-size: 26px; cursor: pointer;
     width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
     transition: color .3s; line-height: 1;
   }
   .lightbox .lb-close:hover { color: #fff; }
-
   .lightbox .lb-nav {
     position: absolute; top: 50%; transform: translateY(-50%);
     background: none; border: none;
-    color: rgba(255,255,255,.4); font-size: 32px; cursor: pointer;
+    color: rgba(255,255,255,.3); font-size: 30px; cursor: pointer;
     width: 52px; height: 52px; display: flex; align-items: center; justify-content: center;
     transition: color .3s;
   }
   .lightbox .lb-nav:hover { color: #fff; }
-  .lightbox .lb-nav.prev { left: 20px; }
-  .lightbox .lb-nav.next { right: 20px; }
-
+  .lightbox .lb-nav.prev { left: 18px; }
+  .lightbox .lb-nav.next { right: 18px; }
   .lightbox .lb-count {
     position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-    color: rgba(255,255,255,.3); font-size: 11px; letter-spacing: 4px;
+    color: rgba(255,255,255,.25); font-size: 11px; letter-spacing: 4px;
   }
 
   /* ── Responsive ────────────────────────── */
   @media (max-width: 900px) {
-    .masonry { column-count: 2; column-gap: 16px; padding: 0 20px 60px; }
-    .masonry .card { margin-bottom: 16px; }
-    .hero-wrap { padding: 100px 28px 40px; }
-    .nav { padding: 20px 28px; }
-    .nav .links { gap: 24px; }
+    .masonry { column-count: 2; column-gap: 18px; padding: 0 20px 64px; }
+    .masonry .card { margin-bottom: 18px; }
+    .hero-wrap { padding: 88px 24px 24px; }
+    .nav { padding: 24px 16px; }
+    .nav .sep { margin: 0 16px; }
+    .spacer { height: 64px; }
   }
 
   @media (max-width: 560px) {
     .masonry { column-count: 2; column-gap: 10px; padding: 0 12px 48px; }
     .masonry .card { margin-bottom: 10px; }
-    .hero-wrap { padding: 80px 16px 32px; }
-    .nav { padding: 16px 16px; }
-    .nav .links { gap: 18px; }
-    .nav a { font-size: 11px; letter-spacing: 3px; }
-    .nav .brand { letter-spacing: 3px; }
-    .quote p { font-size: 15px; }
-    .quote { padding: 48px 20px; }
-    .about { padding: 48px 20px 72px; }
-    .lightbox .lb-nav { font-size: 24px; width: 40px; height: 40px; }
-    .lightbox .lb-nav.prev { left: 8px; }
-    .lightbox .lb-nav.next { right: 8px; }
+    .hero-wrap { padding: 72px 12px 20px; }
+    .nav { padding: 18px 12px; }
+    .nav a { font-size: 10px; letter-spacing: 3px; }
+    .nav .sep { margin: 0 12px; font-size: 10px; }
+    .quote p { font-size: 14px; }
+    .quote .line { margin: 24px auto; }
+    .spacer { height: 48px; }
+    .about { padding: 0 20px 80px; }
+    .about p { font-size: 12px; }
+    .lightbox .lb-nav { font-size: 22px; width: 40px; height: 40px; }
+    .lightbox .lb-nav.prev { left: 6px; }
+    .lightbox .lb-nav.next { right: 6px; }
+    .lightbox .lb-close { top: 16px; right: 20px; font-size: 22px; }
   }
 </style>
 </head>
@@ -227,53 +221,56 @@
 
 <!-- Navigation -->
 <header class="nav" id="nav">
-  <a href="#" class="brand">GALLERY</a>
-  <div class="links">
-    <a href="#home">Home</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#about">About</a>
-  </div>
+  <a href="#home">Home</a>
+  <span class="sep">·</span>
+  <a href="#gallery">Gallery</a>
+  <span class="sep">·</span>
+  <a href="#about">About</a>
 </header>
 
 <!-- Hero -->
 <section id="home">
   <div class="hero-wrap" id="heroWrap">
     <div class="hero-stage" id="heroStage"></div>
-    <div class="hero-caption">
-      <span>Selected Work &mdash; 2026</span>
+    <div class="hero-foot">
       <div class="hero-dots" id="heroDots"></div>
     </div>
   </div>
 </section>
 
+<div class="spacer"></div>
+
 <!-- Quote -->
 <section class="quote">
-  <p>光与影之间<br>万物静默如谜</p>
+  <p>光と影のあいだに<br>静けさを見つける</p>
   <span class="line"></span>
 </section>
 
+<div class="spacer"></div>
+
 <!-- Gallery -->
-<section id="gallery">
-  <div class="gallery-header">
-    <h2>Gallery</h2>
-  </div>
+<section id="gallery" class="gallery-section">
   <div class="masonry" id="masonry"></div>
 </section>
+
+<div class="spacer"></div>
 
 <!-- About -->
 <section id="about">
   <div class="about">
-    <div class="dot"></div>
+    <div class="rule"></div>
     <p>
-      A photographer based in China.<br>
-      Capturing moments of stillness<br>
-      in a restless world.
+      Seeing is not looking.<br>
+      Photography is the patience<br>
+      of waiting for light<br>
+      to reveal what was always there.
     </p>
+    <p class="contact">Based in China</p>
   </div>
 </section>
 
 <!-- Footer -->
-<footer>&copy; 2026 Photography Portfolio</footer>
+<footer>&copy; 2026</footer>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox">
@@ -302,9 +299,8 @@
   var heroStage = document.getElementById('heroStage');
   var heroDots = document.getElementById('heroDots');
   var heroWrap = document.getElementById('heroWrap');
-  var wheelTimeout;
+  var wheelTimer;
 
-  // Build slides
   images.forEach(function(src, i) {
     var slide = document.createElement('div');
     slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
@@ -319,7 +315,9 @@
 
     var dot = document.createElement('span');
     if (i === 0) dot.className = 'active';
-    dot.addEventListener('click', (function(idx) { return function() { goToHero(idx); }; })(i));
+    dot.addEventListener('click', (function(idx) {
+      return function() { goToHero(idx); };
+    })(i));
     heroDots.appendChild(dot);
   });
 
@@ -334,33 +332,26 @@
   function heroNext() { goToHero((heroCurrent + 1) % images.length); }
   function heroPrev() { goToHero((heroCurrent - 1 + images.length) % images.length); }
 
-  // Mouse wheel
   heroWrap.addEventListener('wheel', function(e) {
     e.preventDefault();
-    if (wheelTimeout) return;
-    wheelTimeout = setTimeout(function() { wheelTimeout = null; }, 800);
+    if (wheelTimer) return;
+    wheelTimer = setTimeout(function() { wheelTimer = null; }, 900);
     e.deltaY > 0 ? heroNext() : heroPrev();
   }, { passive: false });
 
-  // Touch swipe
-  var heroTouchX = 0, heroTouchY = 0;
+  var hTX = 0, hTY = 0;
   heroWrap.addEventListener('touchstart', function(e) {
-    heroTouchX = e.touches[0].clientX;
-    heroTouchY = e.touches[0].clientY;
+    hTX = e.touches[0].clientX; hTY = e.touches[0].clientY;
     heroWrap.classList.add('grabbing');
   });
   heroWrap.addEventListener('touchend', function(e) {
     heroWrap.classList.remove('grabbing');
-    var dx = heroTouchX - e.changedTouches[0].clientX;
-    var dy = heroTouchY - e.changedTouches[0].clientY;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-      dx > 0 ? heroNext() : heroPrev();
-    } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40) {
-      dy > 0 ? heroNext() : heroPrev();
-    }
+    var dx = hTX - e.changedTouches[0].clientX;
+    var dy = hTY - e.changedTouches[0].clientY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) { dx > 0 ? heroNext() : heroPrev(); }
+    else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40) { dy > 0 ? heroNext() : heroPrev(); }
   });
 
-  // Keyboard
   document.addEventListener('keydown', function(e) {
     if (lbOpen) return;
     if (e.key === 'ArrowLeft') heroPrev();
@@ -382,7 +373,7 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -20px 0px' });
+  }, { threshold: 0.1, rootMargin: '0px 0px -24px 0px' });
 
   images.forEach(function(src, i) {
     var card = document.createElement('div');
@@ -437,11 +428,10 @@
     if (e.key === 'ArrowRight') lbNext();
   });
 
-  // Swipe for lightbox
-  var lbTouchX = 0;
-  lb.addEventListener('touchstart', function(e) { lbTouchX = e.touches[0].clientX; });
+  var lbTX = 0;
+  lb.addEventListener('touchstart', function(e) { lbTX = e.touches[0].clientX; });
   lb.addEventListener('touchend', function(e) {
-    var diff = lbTouchX - e.changedTouches[0].clientX;
+    var diff = lbTX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) { diff > 0 ? lbNext() : lbPrev(); }
   });
 })();
